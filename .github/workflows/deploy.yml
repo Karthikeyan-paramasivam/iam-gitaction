@@ -1,0 +1,33 @@
+name: Deploy to GCP VM
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: your-gcp-project-id
+
+      - name: Add SSH key and connect
+        run: |
+          # Generate SSH key
+          ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -N ""
+          export EMAIL=$(gcloud config get-value account)
+          export USERNAME=$(echo $EMAIL | cut -d'@' -f1)
+
+          # Add SSH key to OS Login
+          gcloud compute os-login ssh-keys add --key-file ~/.ssh/id_rsa.pub
+
+          # SSH into the VM and run command
+          gcloud compute ssh $iam-githubaction@iam-githubaction \
+            --zone=us-central1-f \
+            --command="echo ✅ GitHub Actions Connected!"
