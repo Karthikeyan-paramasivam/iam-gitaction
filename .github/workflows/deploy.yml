@@ -39,6 +39,6 @@ jobs:
       - name: Connect to GCP VM
         run: |
           USERNAME=$(gcloud config get-value account | cut -d'@' -f1)
-          gcloud compute ssh $iam-githubaction@iam-githubaction \
+          gcloud compute ssh $jenkins-gcloud@gmapsdevdemoqa.iam.gserviceaccount.com@iam-githubaction \
             --zone=us-central1-f \
             --command="echo ✅ GitHub Actions Connected!"
