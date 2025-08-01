@@ -7,28 +7,38 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # ✅ Authenticate using IAM JSON key
       - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      # ✅ Install gcloud and set project
+      - name: Set up gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
         with:
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          project_id: gmapsdevdemoqa
-          export_default_credentials: true
+          project_id: your-gcp-project-id
+          install_components: 'beta'
 
-      - name: Add SSH key and connect
+      # ✅ Generate SSH key
+      - name: Generate SSH key
         run: |
-          # Generate SSH key
           ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -N ""
-          export EMAIL=$(gcloud config get-value account)
-          export USERNAME=$(echo $EMAIL | cut -d'@' -f1)
 
-          # Add SSH key to OS Login
+      # ✅ Add key to OS Login
+      - name: Add SSH key to OS Login
+        run: |
           gcloud compute os-login ssh-keys add --key-file ~/.ssh/id_rsa.pub
 
-          # SSH into the VM and run command
+      # ✅ SSH into the VM
+      - name: Connect to GCP VM
+        run: |
+          USERNAME=$(gcloud config get-value account | cut -d'@' -f1)
           gcloud compute ssh $iam-githubaction@iam-githubaction \
             --zone=us-central1-f \
             --command="echo ✅ GitHub Actions Connected!"
