@@ -1,0 +1,23 @@
+{
+  "name": "iam-gitaction",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Karthikeyan-paramasivam/iam-gitaction.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Karthikeyan-paramasivam/iam-gitaction/issues"
+  },
+  "homepage": "https://github.com/Karthikeyan-paramasivam/iam-gitaction#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
