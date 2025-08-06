@@ -12,22 +12,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy code to VM
+      - name: Prepare and Deploy
         env:
           SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
         run: |
           echo "📁 Ensuring app directory exists"
-          mkdir -p /var/www
+          mkdir -p /var/www/git-act
 
           echo "📁 Changing to app directory"
           cd /var/www/git-act || exit 1
 
-      - name: Mark directory as safe for Git
-        run: git config --global --add safe.directory /var/www/git-act
-
+          echo "✅ Marking directory as safe for Git"
+          git config --global --add safe.directory /var/www/git-act
 
           echo "📥 Pulling latest code"
-          git pull origin main
+          git pull origin main || exit 1
 
           echo "📦 Installing dependencies"
           npm install
