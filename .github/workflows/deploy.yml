@@ -22,6 +22,10 @@ jobs:
           echo "📁 Changing to app directory"
           cd /var/www/git-act || exit 1
 
+      - name: Mark directory as safe for Git
+        run: git config --global --add safe.directory /var/www/git-act
+
+
           echo "📥 Pulling latest code"
           git pull origin main
 
