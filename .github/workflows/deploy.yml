@@ -13,8 +13,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Deploy code to VM
-        env:
-          SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
         run: |
           echo "📁 Ensuring app directory exists"
           mkdir -p /var/www
@@ -28,6 +26,9 @@ jobs:
 
           echo "📥 Pulling latest code"
           git pull origin main
+
+          echo "📂 Copying .env to /mnt"
+          echo "$SUDO_PASSWORD" | sudo -S cp -pv /var/www/git-act/.env /mnt/.env
 
           echo "📦 Installing dependencies"
           npm install
