@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: elf-hosted  # FIXED typo
+    runs-on: elf-hosted
 
     steps:
       - name: Checkout code
