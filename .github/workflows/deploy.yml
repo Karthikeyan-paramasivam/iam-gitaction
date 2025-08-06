@@ -12,26 +12,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Mark directory as safe for Git
+        run: git config --global --add safe.directory /var/www/git-act
+
       - name: Deploy code to VM
         run: |
           echo "📁 Ensuring app directory exists"
-          mkdir -p /var/www
+          sudo mkdir -p /var/www
 
           echo "📁 Changing to app directory"
           cd /var/www/git-act || exit 1
 
-      - name: Mark directory as safe for Git
-        run: git config --global --add safe.directory /var/www/git-act
-
-
           echo "📥 Pulling latest code"
           git pull origin main
-
-          echo "📂 Copying .env to /mnt"
-          echo "$SUDO_PASSWORD" | sudo -S cp -pv /var/www/git-act/.env /mnt/.env
 
           echo "📦 Installing dependencies"
           npm install
 
           echo "🚀 Restarting app"
-          pm2 start app.js --name "titles-server" --update-env -f || pm2 restart titles-server --update-env -f
+          sudo pm2 start app.js --name "titles-server" --update-env -f || \
+          sudo pm2 restart titles-server --update-env -f
