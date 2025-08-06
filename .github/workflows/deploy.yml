@@ -19,12 +19,6 @@ jobs:
           echo "📁 Ensuring app directory exists"
           mkdir -p /var/www
 
-          if [ ! -d /var/www/git-act/.git ]; then
-            echo "🔄 Cloning repo into /var/www/git-act"
-            rm -rf /var/www/git-act
-            git clone https://github.com/Karthikeyan-paramasivam/iam-gitaction.git /var/www/git-act
-          fi
-
           echo "📁 Changing to app directory"
           cd /var/www/git-act || exit 1
 
