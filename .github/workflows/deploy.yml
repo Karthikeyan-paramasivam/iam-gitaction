@@ -22,9 +22,6 @@ jobs:
           echo "📥 Pulling latest code"
           git pull origin main
 
-          echo "📂 Copying .env to /mnt/www"
-          echo "$SUDO_PASSWORD" | sudo -S cp -pv .env /mnt/www/.env
-
           echo "📦 Installing dependencies"
           npm install
 
