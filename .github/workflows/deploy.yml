@@ -6,31 +6,27 @@ on:
 
 jobs:
   deploy:
-    runs-on: elf-hosted
+    runs-on: elf-hosted  # FIXED typo
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Deploy code to VM
+        env:
+          SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
         run: |
-         cd /var/www/your-app/nodejsprojectingithub || exit 1
+          echo "📁 Changing to app directory"
+          cd /var/www/your-app/nodejsprojectingithub || exit 1
 
+          echo "📥 Pulling latest code"
+          git pull origin main
 
-         echo "📥 Pulling latest code"
-         git pull origin main
+          echo "📂 Copying .env to /mnt"
+          echo "$SUDO_PASSWORD" | sudo -S cp -pv /var/www/your-app/nodejsprojectingithub/.env /mnt/.env
 
+          echo "📦 Installing dependencies"
+          npm install
 
-         echo "📂 Copying .env to /mnt"
-         echo "$SUDO_PASSWORD" | sudo -S cp -pv /var/www/your-app/nodejsprojectingithub/.env /mnt/.env
-
-
-         echo "📦 Installing dependencies"
-         npm install
-
-
-         echo "🚀 Restarting app"
-         pm2 start app.js --name "titles-server" --update-env -f || pm2 restart titles-server --update-env -f
-
-       
-         EOF
+          echo "🚀 Restarting app"
+          pm2 start app.js --name "titles-server" --update-env -f || pm2 restart titles-server --update-env -f
