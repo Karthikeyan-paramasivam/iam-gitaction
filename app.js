@@ -9,10 +9,13 @@ const server = http.createServer((req, res) => {
   if (req.method === 'GET' && req.url === '/') {
     const filePath = path.join(__dirname, 'Index.html');
     fs.readFile(filePath, (err, content) => {
+      console.log("test err==========", err)
+      console.log("test content==========", content)
       if (err) {
         res.writeHead(500);
         res.end('Error loading page for pippindsgdxcxvkkkksgsd');
       } else {
+      console.log("res to FR==========")
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(content);
       }
@@ -46,5 +49,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`🚀 Server running at http://34.172.115.17:${3000}`);
+  console.log(`🚀 Server running at http://34.172.115.17:${PORT}`);
 });
