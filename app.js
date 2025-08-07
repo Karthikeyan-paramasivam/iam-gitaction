@@ -7,7 +7,7 @@ const PORT = 3000;
 
 const server = http.createServer((req, res) => {
   if (req.method === 'GET' && req.url === '/') {
-    const filePath = path.join(__dirname, 'Index.html');
+    const filePath = path.join(__dirname, 'index.html');
     fs.readFile(filePath, (err, content) => {
       if (err) {
         res.writeHead(500);
