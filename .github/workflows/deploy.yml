@@ -15,6 +15,17 @@ jobs:
       - name: Mark directory as safe for Git
         run: git config --global --add safe.directory /var/www/git-act
 
+      - name: Notify Slack – Start
+        run: |
+          payload="{
+            \"text\": \"🟡 *Starting Deployment...*\\n\
+          *Repo:* $GITHUB_REPOSITORY\\n\
+          *Branch:* ${GITHUB_REF#refs/heads/}\"
+          }"
+          curl -X POST -H 'Content-type: application/json' \
+            --data "$payload" \
+            "${{ secrets.SLACK_WEBHOOK_URL }}"
+
       - name: Deploy code to VM
         run: |
           echo "📁 Ensuring app directory exists"
@@ -36,15 +47,17 @@ jobs:
           sudo pm2 start app.js --name "titles-server" --update-env -f || \
           sudo pm2 restart titles-server --update-env -f
 
-      - name: Notify Slack
+      - name: Notify Slack – Complete
         if: always()
         run: |
           payload="{
-            \"text\": \"🚀 Deployment finished in GitHub Action\\n\
-          *Repo:* $GITHUB_REPOSITORY\\n\
-          *Branch:* ${GITHUB_REF#refs/heads/}\\n\
-          *Status:* ${{ job.status }}\"
-           }"
-           curl -X POST -H 'Content-type: application/json' \
+            \"text\": \"✅ *Deployment Finished*\\n\
+          Repo: $GITHUB_REPOSITORY\\n\
+          Branch: ${GITHUB_REF#refs/heads/}\\n\
+          Status: ${{ job.status }}\"
+          }"
+          curl -X POST -H 'Content-type: application/json' \
             --data "$payload" \
             "${{ secrets.SLACK_WEBHOOK_URL }}"
+
+      
