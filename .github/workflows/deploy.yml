@@ -35,3 +35,13 @@ jobs:
           echo "🚀 Restarting app"
           sudo pm2 start app.js --name "titles-server" --update-env -f || \
           sudo pm2 restart titles-server --update-env -f
+
+          - name: Notify Slack
+          if: always() # This ensures notification even if the job fails
+          run: |
+          payload="{
+            \"text\": \"🚀 Deployment finished in GitHub Action\nRepo: $GITHUB_REPOSITORY\nBranch: $GITHUB_REF\nStatus: ${{ job.status }}\"
+          }"
+          curl -X POST -H 'Content-type: application/json' \
+            --data "$payload" \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
