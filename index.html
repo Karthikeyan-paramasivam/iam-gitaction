@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Button Form</title>
+    <meta charset="UTF-8">
+    <title>Pippin Asset Management</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-  <h1 style="text-align: center;">Pippin Assets 2025 new</h1>
-
-  <form action="/submit" method="POST" style="text-align: center;">
-    <button type="submit">Submit</button>
-  </form>
-
-  <form action="/upload" method="POST" enctype="multipart/form-data" style="text-align: center; margin-top: 20px;">
-    <input type="file" name="file" />
-    <button type="submit">Upload</button>
-  </form>
+<div class="container">
+    <div class="sidebar">
+        <h2>Pippin Assets</h2>
+        <ul>
+            <li><button onclick="showContent('user')">User</button></li>
+            <li><button onclick="showContent('mac_laptop')">Mac Laptop</button></li>
+            <li><button onclick="showContent('win_laptop')">Windows Laptop</button></li>
+            <li><button onclick="showContent('desktop')">Desktop</button></li>
+            <li><button onclick="showContent('mouse')">Mouse</button></li>
+            <li><button onclick="showContent('keyboard')">Keyboard</button></li>
+            <li><button onclick="showContent('usb_camera')">USB Camera</button></li>
+            <li><button onclick="showContent('headset')">Headset</button></li>
+            <li><button onclick="showContent('wifi_device')">WiFi Device</button></li>
+            <li><button onclick="showContent('laptop_bag')">Laptop Bag</button></li>
+            <li><button onclick="showContent('scrap_system')">Scrap System</button></li>
+            <li><button onclick="showContent('software')">Software</button></li>
+        </ul>
+    </div>
+    <div class="content" id="mainContent"></div>
 </body>
 </html>
