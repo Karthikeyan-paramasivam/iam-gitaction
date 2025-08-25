@@ -37,16 +37,16 @@ jobs:
           echo "📥 Pulling latest code"
           git pull origin main
 
-          echo "📂 Copying .env to /mnt"
-          echo "$SUDO_PASSWORD" | sudo -S cp -pv /var/www/git-act/.env /mnt/www/git-act/.env
-
           echo "📦 Installing dependencies"
           npm install
 
-          echo "🚀 Restarting app"
-          sudo pm2 start app.js --name "titles-server" --update-env -f || \
-          sudo pm2 restart titles-server --update-env -f
-
+      - name: 🚀 Start or Restart PM2 App
+        run: |
+          echo "🚀 Starting or restarting app"
+          sudo pm2 delete titles-server || true
+          sudo pm2 start app.js --name "titles-server" --update-env
+          sudo pm2 save
+           
       - name: Notify Slack – Complete
         if: always()
         run: |
