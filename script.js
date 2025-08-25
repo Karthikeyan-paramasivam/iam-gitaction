@@ -62,7 +62,7 @@ function showContent(type) {
         <div style="text-align:center; font-family: Arial, sans-serif;">
           <h3 style="color: rgb(121, 209, 244); margin-bottom: 20px; font-size: 28px;">Create User</h3>
 
-          <div style="display: flex; justify-content: center; gap: 30px; margin: 25px;">
+          <div style="display: flex; justify-content: left; gap: 30px; margin: 25px;">
           
           <div style="text-align: left;">
       <label for="newEmpNo">Employee No:</label><br>
