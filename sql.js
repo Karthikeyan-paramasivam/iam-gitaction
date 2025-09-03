@@ -60,5 +60,5 @@ app.post("/api/saveUser", async (req, res) => {
 // 🔹 Start server
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://34.172.115.17:${3000}`);
 });

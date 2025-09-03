@@ -813,3 +813,39 @@ function removeBlock(button, containerId, blockClass) {
 
   block.remove();
 }
+
+// Save form data
+function saveData() {
+  // Collect Employee info
+  const empNo = document.getElementById("newEmpNo").value;
+  const empName = document.getElementById("empName").value;
+
+  // Collect PCs dynamically
+  const pcs = [];
+  document.querySelectorAll("#pc-container .pc-block").forEach(block => {
+    pcs.push({
+      type: block.querySelector("select").value,
+      assetsId: block.querySelectorAll("input")[0].value,
+      serial: block.querySelectorAll("input")[1].value,
+      assignedDate: block.querySelectorAll("input")[2].value,
+      returnDate: block.querySelectorAll("input")[3].value,
+      remarks: block.querySelector("textarea").value,
+      itName: block.querySelectorAll("select")[1].value
+    });
+  });
+
+  // Payload
+  const payload = { empNo, empName, pcs };
+
+  fetch("/api/saveUser", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => alert("✅ " + data.message))
+  .catch(err => {
+    console.error(err);
+    alert("❌ Failed to save");
+  });
+}
